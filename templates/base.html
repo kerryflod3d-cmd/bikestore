@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Inicio{% endblock %} | BikeStore</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'bicicletas/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'bicicletas/estilos.css' %}">
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <a class="brand" href="{% url 'bicicletas:inicio' %}">
+                <svg viewBox="0 0 40 40" width="38" height="38" fill="none" aria-hidden="true">
+                    <rect width="40" height="40" rx="11" fill="#b9f36d"/>
+                    <g stroke="#162821" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="25" r="6"/><circle cx="29" cy="25" r="6"/>
+                        <path d="M11 25l6-12 7 12H11l9-8h6l3 8M15 13h5m5-3h4l-3 7"/>
+                    </g>
+                </svg>
+                <span>Bike<span class="brand-accent">Store</span><small>Gestión de inventario</small></span>
+            </a>
+            <nav aria-label="Navegación principal">
+                <a href="{% url 'bicicletas:inicio' %}" {% if request.resolver_match.url_name == 'inicio' %}aria-current="page"{% endif %}>Inicio</a>
+                <a href="{% url 'bicicletas:listar' %}" {% if request.resolver_match.url_name == 'listar' %}aria-current="page"{% endif %}>Inventario</a>
+                <a class="nav-create" href="{% url 'bicicletas:crear' %}" {% if request.resolver_match.url_name == 'crear' %}aria-current="page"{% endif %}>+ Nueva bicicleta</a>
+            </nav>
+        </div>
+    </header>
+    <main class="container" id="contenido">
+        {% for message in messages %}
+            <div class="message" role="status">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="footer"><div class="container footer-inner"><span>BikeStore · Gestión de bicicletas</span><span>Programación Backend · Django + MariaDB</span></div></footer>
+</body>
+</html>
