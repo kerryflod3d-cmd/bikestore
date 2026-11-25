@@ -1,8 +1,8 @@
 # BikeStore
 
-Sistema de gestión de inventario de bicicletas desarrollado con Django y MariaDB para la asignatura de Programación Backend de INACAP.
+Sistema de gestión de inventario de bicicletas desarrollado con Django y MariaDB para la asignatura de Programación Backend.
 
-Permite registrar, consultar, editar y eliminar bicicletas, buscar por marca o modelo y filtrar por tipo. El inicio muestra las referencias registradas y el stock disponible.
+Cuenta con un CRUD funcional. El inicio muestra las referencias registradas y el stock disponible.
 
 ## Ejecución
 
@@ -29,4 +29,4 @@ python manage.py test bicicletas
 
 Las 19 pruebas se ejecutaron correctamente con MariaDB. El usuario de la base de datos necesita permisos sobre `test_bikestore_db` para ejecutarlas.
 
-Proyecto de uso local. Desarrollado por Iván Rodrigo Morales Pérez con asistencia de IA.
+Desarrollo: Iván Morales
