@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Inventario{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div><p class="eyebrow">ADMINISTRACIÓN / INVENTARIO</p><h1>Inventario de bicicletas</h1><p>Consulta y administra todos los registros de la tienda.</p></div>
+    <a class="btn primary" href="{% url 'bicicletas:crear' %}">+ Nueva bicicleta</a>
+</div>
+<section class="panel">
+    <form class="filters" method="get" action="{% url 'bicicletas:listar' %}">
+        <div class="filter-search"><label for="buscar">Buscar marca o modelo</label><input id="buscar" type="search" name="q" value="{{ buscar }}" placeholder="Ej. Trek, Marlin"></div>
+        <div><label for="tipo">Tipo</label><select id="tipo" name="tipo"><option value="">Todos los tipos</option>{% for valor, nombre in tipos %}<option value="{{ valor }}" {% if tipo == valor %}selected{% endif %}>{{ nombre }}</option>{% endfor %}</select></div>
+        <div class="actions"><button class="btn secondary" type="submit">Buscar</button><a class="btn plain" href="{% url 'bicicletas:listar' %}">Limpiar</a></div>
+    </form>
+    <div class="table-meta">{{ bicicletas|length }} registro{{ bicicletas|length|pluralize }}</div>
+    {% if bicicletas %}
+    <div class="table-scroll"><table>
+        <thead><tr><th scope="col">Marca / modelo</th><th scope="col">Tipo</th><th scope="col">Aro / color</th><th scope="col">Precio</th><th scope="col">Stock</th><th scope="col">Acciones</th></tr></thead>
+        <tbody>{% for bici in bicicletas %}<tr>
+            <td><strong>{{ bici.marca }} {{ bici.modelo }}</strong>{% if bici.descripcion %}<small class="muted block description">{{ bici.descripcion }}</small>{% endif %}</td>
+            <td>{{ bici.get_tipo_display }}</td><td>{{ bici.aro }}″<small class="muted block">{{ bici.color }}</small></td><td class="numeric">${{ bici.precio|floatformat:"0g" }}</td>
+            <td>{% if bici.stock %}<span class="status available">{{ bici.stock }} uds.</span>{% else %}<span class="status unavailable">Sin stock</span>{% endif %}</td>
+            <td><div class="row-actions"><a class="btn small secondary" href="{% url 'bicicletas:editar' bici.pk %}" aria-label="Editar {{ bici }}">Editar</a><a class="btn small danger-outline" href="{% url 'bicicletas:eliminar' bici.pk %}" aria-label="Eliminar {{ bici }}">Eliminar</a></div></td>
+        </tr>{% endfor %}</tbody>
+    </table></div>
+    {% else %}
+        <div class="empty"><h3>No se encontraron bicicletas</h3>{% if buscar or tipo %}<p>Prueba con otra búsqueda o elimina los filtros.</p><a class="btn secondary" href="{% url 'bicicletas:listar' %}">Ver inventario completo</a>{% else %}<p>Agrega una bicicleta para empezar a gestionar el inventario.</p><a class="btn primary" href="{% url 'bicicletas:crear' %}">Registrar bicicleta</a>{% endif %}</div>
+    {% endif %}
+</section>
+{% endblock %}

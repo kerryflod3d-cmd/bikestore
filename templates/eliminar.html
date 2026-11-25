@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar bicicleta{% endblock %}
+{% block content %}
+<div class="page-heading"><div><a class="text-link" href="{% url 'bicicletas:listar' %}">← Volver al inventario</a><h1>Eliminar bicicleta</h1><p>Confirma la operación antes de eliminar el registro.</p></div></div>
+<section class="panel delete-panel">
+    <div class="delete-icon" aria-hidden="true">!</div>
+    <h2>¿Eliminar {{ bicicleta.marca }} {{ bicicleta.modelo }}?</h2>
+    <p class="muted">Se eliminará permanentemente este registro del inventario, incluidas sus {{ bicicleta.stock }} unidades registradas.</p>
+    <dl class="record-summary"><div><dt>Tipo</dt><dd>{{ bicicleta.get_tipo_display }}</dd></div><div><dt>Precio</dt><dd>${{ bicicleta.precio|floatformat:"0g" }}</dd></div><div><dt>Stock</dt><dd>{{ bicicleta.stock }}</dd></div></dl>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-actions"><a class="btn secondary" href="{% url 'bicicletas:listar' %}">Cancelar</a><button class="btn danger" type="submit">Sí, eliminar bicicleta</button></div>
+    </form>
+</section>
+{% endblock %}
