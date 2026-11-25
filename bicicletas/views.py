@@ -12,6 +12,7 @@ def inicio(request):
     bicicletas = Bicicleta.objects.all()
     contexto = {
         "total_referencias": bicicletas.count(),
+        # Si no hay bicicletas, Sum devuelve None en lugar de cero.
         "total_stock": bicicletas.aggregate(total=Sum("stock"))["total"] or 0,
         "sin_stock": bicicletas.filter(stock=0).count(),
         "recientes": bicicletas.order_by("-fecha_registro", "-pk")[:5],
@@ -52,6 +53,7 @@ def crear(request):
 def editar(request, pk):
     bicicleta = get_object_or_404(Bicicleta, pk=pk)
     if request.method == "POST":
+        # instance permite actualizar la bicicleta existente en vez de crear otra.
         form = BicicletaEditarForm(request.POST, instance=bicicleta)
         if form.is_valid():
             form.save()
@@ -65,6 +67,7 @@ def editar(request, pk):
 @require_http_methods(["GET", "POST"])
 def eliminar(request, pk):
     bicicleta = get_object_or_404(Bicicleta, pk=pk)
+    # GET muestra la confirmación; solo POST elimina el registro.
     if request.method == "POST":
         bicicleta.delete()
         messages.success(request, "Bicicleta eliminada correctamente.")

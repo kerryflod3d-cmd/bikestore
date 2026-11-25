@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Las credenciales se cargan desde un archivo local que no se sube a Git.
 load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
@@ -61,6 +62,7 @@ DATABASES = {
         "PORT": os.environ["DB_PORT"],
         "OPTIONS": {
             "charset": "utf8mb4",
+            # El modo estricto evita aceptar valores fuera del rango permitido.
             "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
         },
     }

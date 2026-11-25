@@ -123,6 +123,7 @@ class InventarioTests(TestCase):
 
     def test_bd_rechaza_precio_cero(self):
         # update() evita el formulario: comprobamos la restricción de la BD.
+        # atomic permite revertir la operación fallida y seguir consultando la BD.
         with self.assertRaises(DatabaseError), transaction.atomic():
             Bicicleta.objects.filter(pk=self.bicicleta.pk).update(precio=0)
         self.bicicleta.refresh_from_db()

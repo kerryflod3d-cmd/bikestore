@@ -35,6 +35,7 @@ class Bicicleta(models.Model):
         choices=TIPOS
     )
 
+    # El aro se guarda como texto para admitir medidas como 27.5.
     aro = models.CharField(
         max_length=4,
         choices=AROS
@@ -61,6 +62,7 @@ class Bicicleta(models.Model):
         verbose_name = "Bicicleta"
         verbose_name_plural = "Bicicletas"
 
+        # MariaDB también debe rechazar precios menores o iguales a cero.
         constraints = [
             models.CheckConstraint(
                 condition=models.Q(precio__gt=0),
